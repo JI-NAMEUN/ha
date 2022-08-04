@@ -3,7 +3,6 @@ package com.ll.exam;
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.article.service.ArticleService;
 import com.ll.exam.mymap.MyMap;
-import com.ll.exam.util.Ut;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -138,5 +137,16 @@ public class ArticleServiceTest {
         // 수정날짜가 갱신되었다 라고 볼 수 있음
         long diffSeconds = ChronoUnit.SECONDS.between(articleDto.getModifiedDate(), LocalDateTime.now());
         assertThat(diffSeconds).isLessThanOrEqualTo(1L);
+    }
+
+    @Test
+    public void delete() {
+        ArticleService articleService = Container.getObj(ArticleService.class);
+
+        articleService.delete(1);
+
+        ArticleDto articleDto = articleService.getArticleById(1);
+
+        assertThat(articleDto).isNull();
     }
 }
